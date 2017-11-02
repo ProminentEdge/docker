@@ -4,7 +4,7 @@
 
 build:
 	docker build --no-cache \
-	-t srflaxu40/jenkins:master .
+	-t prominentedgestatengine/jenkins:master .
 
 push:
-	docker push srflaxu40/jenkins:master
+	docker push prominentedgestatengine/jenkins:master
