@@ -9,6 +9,7 @@ RUN apt-get update \
           git \
           jq \
           lsb-release \
+          rsync \
           software-properties-common \
     && rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
