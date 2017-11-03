@@ -39,7 +39,9 @@ VOLUME /var/jenkins_home
 # `/usr/share/jenkins/ref/` contains all reference configuration we want 
 # to set on a fresh new installation. Use it to bundle additional plugins 
 # or config file with your custom jenkins Docker image.
-RUN mkdir -p /usr/share/jenkins/ref/init.groovy.d
+RUN mkdir -p /usr/share/jenkins/ref/init.groovy.d && \
+    mkdir -p /var/jenkins_home/bin/ && \
+    chmod 755 /var/jenkins_home/bin/
 
 ENV TINI_VERSION 0.14.0
 ENV TINI_SHA 6c41ec7d33e857d4779f14d9c74924cab0c7973485d2972419a3b7c7620ff5fd
@@ -49,6 +51,9 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION
   && echo "$TINI_SHA  /bin/tini" | sha256sum -c -
 
 COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
+COPY ops-tools/jenkins-scripts/* /var/jenkins_home/bin/
+
+RUN chmod -R 755 /var/jenkins_home/bin/
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
