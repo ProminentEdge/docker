@@ -7,6 +7,7 @@ RUN apt-get update \
           ca-certificates \
           curl \
           git \
+          jq \
           lsb-release \
           software-properties-common \
     && rm -rf /var/lib/apt/lists/* && \
