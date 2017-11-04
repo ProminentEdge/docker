@@ -52,7 +52,7 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION
   && echo "$TINI_SHA  /bin/tini" | sha256sum -c -
 
 COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
-COPY ops-tools/jenkins-scripts/* /var/jenkins_home/bin/
+COPY ops-tools/jenkins-scripts/ /var/jenkins_home/bin/
 
 RUN chmod -R 755 /var/jenkins_home/bin/
 
