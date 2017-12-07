@@ -15,7 +15,10 @@ RUN apt-get update \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" && \
     apt-get update && \
-    apt-get install -y docker-ce=17.03.1~ce-0~ubuntu-xenial
+    apt-get install -y docker-ce=17.03.1~ce-0~ubuntu-xenial && \
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+    chmod +x ./kubectl && \
+    mv ./kubectl /usr/local/bin/kubectl
 
 ARG user=jenkins
 ARG group=jenkins
