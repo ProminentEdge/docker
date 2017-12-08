@@ -16,9 +16,15 @@ RUN apt-get update \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" && \
     apt-get update && \
     apt-get install -y docker-ce=17.03.1~ce-0~ubuntu-xenial && \
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
-    chmod +x ./kubectl && \
-    mv ./kubectl /usr/local/bin/kubectl
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+    && chmod +x ./kubectl && \
+    mv ./kubectl /usr/local/bin/kubectl \
+    && wget https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    pip install \
+        elasticsearch-curator==5.4.0 \
+        boto==2.48.0
+
 
 ARG user=jenkins
 ARG group=jenkins
