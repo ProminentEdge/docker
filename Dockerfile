@@ -19,6 +19,9 @@ RUN apt-get update \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl && \
+    wget https://github.com/kelseyhightower/confd/releases/download/v0.14.0/confd-0.14.0-linux-amd64 && \
+    mv confd-0.14.0-linux-amd64 /usr/local/bin/confd && \
+    chmod 755 /usr/local/bin/confd && \
     curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash && \ 
     wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
