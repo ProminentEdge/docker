@@ -10,6 +10,7 @@ RUN apt-get update \
           jq \
           lsb-release \
           rsync \
+          vim \
           software-properties-common \
     && rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
