@@ -9,6 +9,8 @@ RUN apt-get update \
           git \
           jq \
           lsb-release \
+          postgresql \
+          postgresql-contrib \
           rsync \
           vim \
           software-properties-common \
