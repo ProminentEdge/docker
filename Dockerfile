@@ -1,6 +1,7 @@
 FROM openjdk:8-jdk
 
-RUN apt-get update \
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    apt-get update \
     && apt-get install -y \
           awscli \
           apt-transport-https \
@@ -9,6 +10,7 @@ RUN apt-get update \
           git \
           jq \
           lsb-release \
+          nodejs \
           postgresql \
           postgresql-contrib \
           rsync \
