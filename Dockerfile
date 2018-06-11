@@ -8,6 +8,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
           ca-certificates \
           curl \
           git \
+          g++ \
           jq \
           lsb-release \
           nodejs \
