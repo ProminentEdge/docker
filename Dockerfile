@@ -79,6 +79,12 @@ RUN chmod -R 755 /var/jenkins_home/bin/
 ARG JENKINS_VERSION
 ENV JENKINS_VERSION ${JENKINS_VERSION:-2.121.2}
 
+# Install Vault
+RUN curl -O https://releases.hashicorp.com/vault/0.9.6/vault_0.9.6_linux_amd64.zip && \
+    unzip vault_0.9.6_linux_amd64.zip && \
+    mv vault /usr/local/bin && \
+    chmod 755 /usr/local/bin/vault
+
 # jenkins.war checksum, download will be validated using it
 ARG JENKINS_SHA=2d71b8f87c8417f9303a73d52901a59678ee6c0eefcf7325efed6035ff39372a
 
