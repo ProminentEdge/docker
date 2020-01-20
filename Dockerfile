@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get update \
     && apt-get install -y \
           awscli \
@@ -28,7 +28,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     wget https://github.com/kelseyhightower/confd/releases/download/v0.14.0/confd-0.14.0-linux-amd64 && \
     mv confd-0.14.0-linux-amd64 /usr/local/bin/confd && \
     chmod 755 /usr/local/bin/confd && \
-    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash && \ 
+    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash && \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
     pip install \
@@ -47,17 +47,17 @@ ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_SLAVE_AGENT_PORT ${agent_port}
 
 # Jenkins is run with user `jenkins`, uid = 1000
-# If you bind mount a volume from the host or a data container, 
+# If you bind mount a volume from the host or a data container,
 # ensure you use the same uid
 RUN groupadd -g ${gid} ${group} \
     && useradd -d "$JENKINS_HOME" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
 
-# Jenkins home directory is a volume, so configuration and build history 
+# Jenkins home directory is a volume, so configuration and build history
 # can be persisted and survive image upgrades
 VOLUME /var/jenkins_home
 
-# `/usr/share/jenkins/ref/` contains all reference configuration we want 
-# to set on a fresh new installation. Use it to bundle additional plugins 
+# `/usr/share/jenkins/ref/` contains all reference configuration we want
+# to set on a fresh new installation. Use it to bundle additional plugins
 # or config file with your custom jenkins Docker image.
 RUN mkdir -p /usr/share/jenkins/ref/init.groovy.d && \
     mkdir -p /var/jenkins_home/bin/ && \
@@ -66,7 +66,7 @@ RUN mkdir -p /usr/share/jenkins/ref/init.groovy.d && \
 ENV TINI_VERSION 0.14.0
 ENV TINI_SHA 6c41ec7d33e857d4779f14d9c74924cab0c7973485d2972419a3b7c7620ff5fd
 
-# Use tini as subreaper in Docker container to adopt zombie processes 
+# Use tini as subreaper in Docker container to adopt zombie processes
 RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static-amd64 -o /bin/tini && chmod +x /bin/tini \
   && echo "$TINI_SHA  /bin/tini" | sha256sum -c -
 
@@ -91,7 +91,7 @@ ARG JENKINS_SHA=2d71b8f87c8417f9303a73d52901a59678ee6c0eefcf7325efed6035ff39372a
 # Can be used to customize where jenkins.war get downloaded from
 ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war
 
-# could use ADD but this one does not check Last-Modified header neither does it allow to control checksum 
+# could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
 # see https://github.com/docker/docker/issues/8331
 RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war
 #  && echo "${JENKINS_SHA}  /usr/share/jenkins/jenkins.war" | sha256sum -c -
@@ -101,6 +101,13 @@ RUN wget https://github.com/heptio/ark/releases/download/v0.7.0/ark-v0.7.0-linux
     tar -xvzf ark-v0.7.0-linux-amd64.tar.gz && \
     chmod +x ark && \
     mv ark /usr/local/bin/ark
+
+# Install golang 1.10
+RUN wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.10.linux-amd64.tar.gz && \
+    rm -rf go1.10.linux-amd64.tar.gz
+
+ENV PATH="${PATH}:/usr/local/go/bin"
 
 
 ENV JENKINS_UC https://updates.jenkins.io
