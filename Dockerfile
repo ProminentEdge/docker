@@ -109,6 +109,11 @@ RUN wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz && \
 
 ENV PATH="${PATH}:/usr/local/go/bin"
 
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
+RUN locale-gen en_US.UTF-8
+
 
 ENV JENKINS_UC https://updates.jenkins.io
 ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
