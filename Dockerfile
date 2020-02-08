@@ -77,7 +77,7 @@ RUN chmod -R 755 /var/jenkins_home/bin/
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.121.2}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.60.3}
 
 # Install Vault
 RUN curl -O https://releases.hashicorp.com/vault/0.9.6/vault_0.9.6_linux_amd64.zip && \
