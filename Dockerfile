@@ -76,7 +76,7 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION
   && echo "$TINI_SHA  /bin/tini" | sha256sum -c -
 
 COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
-COPY ops-tools/jenkins-scripts/ /var/jenkins_home/bin/
+COPY jenkins-scripts/ /var/jenkins_home/bin/
 
 RUN chmod -R 755 /var/jenkins_home/bin/
 
@@ -99,13 +99,6 @@ ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-w
 # could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
 # see https://github.com/docker/docker/issues/8331
 RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war
-#  && echo "${JENKINS_SHA}  /usr/share/jenkins/jenkins.war" | sha256sum -c -
-
-
-RUN wget https://github.com/heptio/ark/releases/download/v0.7.0/ark-v0.7.0-linux-amd64.tar.gz && \
-    tar -xvzf ark-v0.7.0-linux-amd64.tar.gz && \
-    chmod +x ark && \
-    mv ark /usr/local/bin/ark
 
 # Install golang 1.10
 RUN wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz && \
