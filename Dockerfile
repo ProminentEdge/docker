@@ -30,9 +30,9 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl && \
-    wget https://get.helm.sh/helm-v3.3.0-rc.1-darwin-amd64.tar.gz && \
-    tar -xvzf helm-v3.3.0-rc.1-darwin-amd64.tar.gz && \
-    mv darwin-amd64/helm /usr/local/bin/helm && \
+    wget https://get.helm.sh/helm-v3.3.0-darwin-amd64.tar.gz && \
+    cp darwin-amd64/helm /usr/local/bin/helm && \
+    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash && \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
     pip install \
@@ -75,7 +75,7 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION
   && echo "$TINI_SHA  /bin/tini" | sha256sum -c -
 
 COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
-COPY jenkins-scripts/ /var/jenkins_home/bin/
+COPY ops-tools/jenkins-scripts/ /var/jenkins_home/bin/
 
 RUN chmod -R 755 /var/jenkins_home/bin/
 
@@ -98,13 +98,7 @@ ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-w
 # could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
 # see https://github.com/docker/docker/issues/8331
 RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war
-
-# Install golang 1.10
-RUN wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.10.linux-amd64.tar.gz && \
-    rm -rf go1.10.linux-amd64.tar.gz
-
-ENV PATH="${PATH}:/usr/local/go/bin"
+#  && echo "${JENKINS_SHA}  /usr/share/jenkins/jenkins.war" | sha256sum -c -
 
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
