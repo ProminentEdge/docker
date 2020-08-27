@@ -30,10 +30,9 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl && \
-    wget https://github.com/kelseyhightower/confd/releases/download/v0.14.0/confd-0.14.0-linux-amd64 && \
-    mv confd-0.14.0-linux-amd64 /usr/local/bin/confd && \
-    chmod 755 /usr/local/bin/confd && \
-    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash && \
+    wget https://get.helm.sh/helm-v3.3.0-rc.1-darwin-amd64.tar.gz && \
+    tar -xvzf helm-v3.3.0-rc.1-darwin-amd64.tar.gz && \
+    mv darwin-amd64/helm /usr/local/bin/helm && \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
     pip install \
