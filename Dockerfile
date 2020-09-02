@@ -26,11 +26,12 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" && \
     apt-get update && \
-    apt-get install -y docker-ce=17.06.2~ce-0~ubuntu && \
+    apt-get install -y docker && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl && \
     wget https://get.helm.sh/helm-v3.3.0-darwin-amd64.tar.gz && \
+    tar -xvzf helm-v3.3.0-darwin-amd64.tar.gz && \
     cp darwin-amd64/helm /usr/local/bin/helm && \
     curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash && \
     wget https://bootstrap.pypa.io/get-pip.py && \
