@@ -40,6 +40,11 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
         elasticsearch-curator==5.4.0 \
         boto==2.48.0
 
+# Terraform
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg |  apt-key add - && \
+     apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && \
+     apt-get update &&  apt-get install terraform
+
 
 ARG user=jenkins
 ARG group=jenkins
@@ -76,9 +81,6 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION
   && echo "$TINI_SHA  /bin/tini" | sha256sum -c -
 
 COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
-COPY ops-tools/jenkins-scripts/ /var/jenkins_home/bin/
-
-RUN chmod -R 755 /var/jenkins_home/bin/
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
