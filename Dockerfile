@@ -33,7 +33,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     wget https://get.helm.sh/helm-v3.3.0-darwin-amd64.tar.gz && \
     tar -xvzf helm-v3.3.0-darwin-amd64.tar.gz && \
     cp darwin-amd64/helm /usr/local/bin/helm && \
-    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash && \
+    chmod +x /usr/local/bin/helm && \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
     pip install \
