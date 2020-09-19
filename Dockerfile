@@ -32,7 +32,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     mv ./kubectl /usr/local/bin/kubectl && \
     wget https://get.helm.sh/helm-v3.3.3-linux-amd64.tar.gz && \
     tar -xvzf helm-v3.3.3-linux-amd64.tar.gz && \
-    cp darwin-amd64/helm /usr/local/bin/helm && \
+    cp linux-amd64/helm /usr/local/bin/helm && \
     chmod +x /usr/local/bin/helm && \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
