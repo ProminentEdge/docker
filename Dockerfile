@@ -23,15 +23,12 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
           python-dev \
           python3-dev \
     && rm -rf /var/lib/apt/lists/* && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" && \
     apt-get update && \
-    apt-get install -y docker && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl && \
-    wget https://get.helm.sh/helm-v3.3.3-linux-amd64.tar.gz && \
-    tar -xvzf helm-v3.3.3-linux-amd64.tar.gz && \
+    wget https://get.helm.sh/helm-v3.3.4-linux-amd64.tar.gz && \
+    tar -xvzf helm-v3.3.4-linux-amd64.tar.gz && \
     cp linux-amd64/helm /usr/local/bin/helm && \
     chmod +x /usr/local/bin/helm && \
     wget https://bootstrap.pypa.io/get-pip.py && \
@@ -39,6 +36,18 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     pip install \
         elasticsearch-curator==5.4.0 \
         boto==2.48.0
+
+# Docker
+RUN  apt-get install -y \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     software-properties-common && \
+     curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
+     add-apt-repository \
+     "deb [arch=amd64] https://download.docker.com/linux/debian jessie stable" && \
+     apt-get update && \
+     apt-get install -y docker-ce
 
 # Terraform
 RUN curl -fsSL https://apt.releases.hashicorp.com/gpg |  apt-key add - && \
