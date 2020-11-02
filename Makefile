@@ -4,7 +4,7 @@
 
 build:
 	docker build --no-cache \
-	-t prominentedgestatengine/jenkins:master .
+	-t prominentedgestatengine/jenkins:persumedia-master .
 
 push:
-	docker push prominentedgestatengine/jenkins:master
+	docker push prominentedgestatengine/jenkins:persumedia-master

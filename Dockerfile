@@ -76,13 +76,10 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION
   && echo "$TINI_SHA  /bin/tini" | sha256sum -c -
 
 COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
-COPY ops-tools/jenkins-scripts/ /var/jenkins_home/bin/
-
-RUN chmod -R 755 /var/jenkins_home/bin/
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.138.4}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.190.1}
 
 # Install Vault
 RUN curl -O https://releases.hashicorp.com/vault/0.9.6/vault_0.9.6_linux_amd64.zip && \
@@ -100,17 +97,6 @@ ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-w
 # see https://github.com/docker/docker/issues/8331
 RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war
 #  && echo "${JENKINS_SHA}  /usr/share/jenkins/jenkins.war" | sha256sum -c -
-
-
-RUN wget https://github.com/heptio/ark/releases/download/v0.7.0/ark-v0.7.0-linux-amd64.tar.gz && \
-    tar -xvzf ark-v0.7.0-linux-amd64.tar.gz && \
-    chmod +x ark && \
-    mv ark /usr/local/bin/ark
-
-# Install golang 1.10
-RUN wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.10.linux-amd64.tar.gz && \
-    rm -rf go1.10.linux-amd64.tar.gz
 
 ENV PATH="${PATH}:/usr/local/go/bin"
 
