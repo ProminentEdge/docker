@@ -1,1 +1,4 @@
 *.tmp
+darwin-amd64
+*.tar.gz
+ops-tools 
