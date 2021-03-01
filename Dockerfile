@@ -1,5 +1,4 @@
 FROM openjdk:8-jdk
-
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update \
     && apt-get install -y \
@@ -36,7 +35,8 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     python get-pip.py && \
     pip install \
         elasticsearch-curator==5.4.0 \
-        boto==2.48.0
+        boto==2.48.0 \
+        docker-compose
 
 
 ARG user=jenkins
