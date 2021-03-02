@@ -21,10 +21,12 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
           build-essential \
           libssl-dev \
           libffi-dev \
-          python-dev \
-          python3-dev \
-    && rm -rf /var/lib/apt/lists/* && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
+          python3-dev && \
+          rm -rf /var/lib/apt/lists/*
+
+RUN rm /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" && \
     apt-get update && \
     apt-get install -y docker-ce=17.06.2~ce-0~ubuntu && \
@@ -36,7 +38,8 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     python get-pip.py && \
     pip install \
         elasticsearch-curator==5.4.0 \
-        boto==2.48.0
+        boto==2.48.0 \
+        docker-compose
 
 
 ARG user=jenkins
@@ -74,9 +77,6 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION
   && echo "$TINI_SHA  /bin/tini" | sha256sum -c -
 
 COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
-COPY ops-tools/jenkins-scripts/ /var/jenkins_home/bin/
-
-RUN chmod -R 755 /var/jenkins_home/bin/
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
