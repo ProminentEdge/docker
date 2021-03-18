@@ -1,43 +1,37 @@
 FROM openjdk:8-jdk
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
+    echo "deb https://deb.nodesource.com/node_12.x $(cat /etc/os-release | grep VERSION_CODENAME | cut -f 2 -d '=') main" > /etc/apt/sources.list.d/nodesource.list && \
     apt-get update \
     && apt-get install -y \
-          awscli \
           apt-transport-https \
           ca-certificates \
           curl \
           git \
-          g++ \
           jq \
-          lsb-release \
           nodejs \
           postgresql \
           postgresql-contrib \
           rsync \
           ruby-full \
-          vim \
-          software-properties-common \
           build-essential \
           libssl-dev \
           libffi-dev \
-          python-dev \
           python3-dev \
     && rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" && \
+    echo "deb [arch=amd64] https://download.docker.com/linux/debian $(cat /etc/os-release | grep VERSION_CODENAME | cut -f 2 -d '=') stable" > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
-    apt-get install -y docker-ce=17.06.2~ce-0~ubuntu && \
+    apt-get install -y docker-ce=17.12.1~ce-0~debian && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl && \
     curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash && \
     wget https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py && \
-    pip install \
-        elasticsearch-curator==5.4.0 \
-        boto==2.48.0
-
+    python3 get-pip.py && \
+    pip3 install \
+        awscli \
+        elasticsearch-curator==5.4.0
 
 ARG user=jenkins
 ARG group=jenkins
