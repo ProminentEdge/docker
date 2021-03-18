@@ -1,19 +1,18 @@
 FROM openjdk:8-jdk
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
+    echo "deb https://deb.nodesource.com/node_12.x $(cat /etc/os-release | grep VERSION_CODENAME | cut -f 2 -d '=') main" > /etc/apt/sources.list.d/nodesource.list && \
     apt-get update \
     && apt-get install -y \
           apt-transport-https \
           ca-certificates \
           curl \
           git \
-          g++ \
           jq \
           nodejs \
           postgresql \
           postgresql-contrib \
           rsync \
-          ruby-full \
           vim \
           build-essential \
           libssl-dev \
@@ -21,7 +20,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
           python3-dev \
     && rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
-    echo "deb [arch=amd64] https://download.docker.com/linux/debian $(cat /etc/os-release | grep VERSION_CODENAME=buster | cut -f 2 -d '=') stable" > /etc/apt/sources.list.d/docker.list && \
+    echo "deb [arch=amd64] https://download.docker.com/linux/debian $(cat /etc/os-release | grep VERSION_CODENAME | cut -f 2 -d '=') stable" > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
     apt-get install -y docker-ce=17.12.1~ce-0~debian && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
