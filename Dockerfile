@@ -13,7 +13,7 @@ RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
           postgresql \
           postgresql-contrib \
           rsync \
-          vim \
+          ruby-full \
           build-essential \
           libssl-dev \
           libffi-dev \
@@ -30,11 +30,8 @@ RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
     wget https://bootstrap.pypa.io/get-pip.py && \
     python3 get-pip.py && \
     pip3 install \
-        elasticsearch-curator==5.4.0 && \
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-    unzip awscliv2.zip && \
-    ./aws/install && \
-    rm -rf ./aws/
+        awscli \
+        elasticsearch-curator==5.4.0
 
 ARG user=jenkins
 ARG group=jenkins
